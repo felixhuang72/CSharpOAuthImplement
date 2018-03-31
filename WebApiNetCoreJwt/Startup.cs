@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -26,6 +27,9 @@ namespace WebApiNetCoreJwt
             services.AddMvc();
             //站台設定檔轉換為強型別
             services.Configure<SysConfig>(Configuration);
+
+            //regist HttpContextAccessor
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             #region Json Web Token (JWT) 設定
 
@@ -103,13 +107,7 @@ namespace WebApiNetCoreJwt
                                           .AllowCredentials()
                                           );
 
-            app.UseMvc(routes =>
-            {
-                //for Web
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc();
         }
     }
 }
