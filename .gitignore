@@ -4,3 +4,4 @@ bin
 obj
 WebApi_Jwt.csproj.user
 WebApi_JoseJWT.csproj.user
+*.user
