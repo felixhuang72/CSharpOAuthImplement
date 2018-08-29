@@ -184,8 +184,10 @@ namespace WebApiJWT.Controllers
                         ValidateAudience = true,
                         ValidAudiences = audience,
                         ValidIssuer = sysConfig.JwtIssuer,
+                        ValidateIssuerSigningKey = true,
                         IssuerSigningKey = securityKey,
-                        ValidateLifetime = validateLifetime,
+                        ValidateLifetime = validateLifetime,                        
+                        ClockSkew = TimeSpan.Zero,
                     };
 
                     ClaimsPrincipal _ValidateResult = jwtHandler.ValidateToken(jwtInput, paras, out SecurityToken validatedToken);
