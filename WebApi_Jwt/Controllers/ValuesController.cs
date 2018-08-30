@@ -127,10 +127,13 @@ namespace WebApiJWT.Controllers
         /// </summary>
         /// <param name="jwtInput">Token 內容</param>
         /// <param name="validateLifetime">是否驗證生命週期</param>
-        /// <returns>解析後的 Token 內容或錯誤訊息</returns>
-        /// <remarks>.net core: https://dotblogs.com.tw/libtong/2018/01/11/121549</remarks>
+        /// <returns>解析後的 Token 內容或錯誤訊息</returns>        
         public string TokenValidate(string jwtInput, bool validateLifetime = true)
         {
+            /* 參考範例:
+             * 1. https://contos.io/peeking-inside-your-jwt-tokens-using-c-bf6a729d06c8
+             * 2. for asp.net core: https://dotblogs.com.tw/libtong/2018/01/11/121549
+             */
             string output = "";
 
             try
