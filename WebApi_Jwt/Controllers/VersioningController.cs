@@ -8,9 +8,9 @@ using System.Web.Http;
 // API                              v1.0    v2.0    v2019-01-16.1.0-Beta    Comment
 // ==============================   =====   =====   =====================   =============================
 // version-test-a/test              OK      OK      OK                      各版本有各自方法，回傳值皆不同
-// version-test-a/test_ex1          OK      OK      OK                      各版本繼承 v1
-// version-test-a/test_v2_ex1       -       OK      OK                      各版本繼承 v2
-// version-test-a/getDatetime       -       -       OK 
+// version-test-a/test_ex1          OK      OK      OK                      各版本皆執行 v1 的 test_ex1
+// version-test-a/test_v2_ex1       -       OK      OK                      各版本皆執行 v2 的 test_v2_ex1
+// version-test-a/getDatetime       -       -       OK                      getDatetime API 由 v2019-01-16.1.0-Beta 開始支援
 
 
 //v1
@@ -18,8 +18,8 @@ namespace WebApiJwt.Controllers
 {
     //v1,v2,v2019-01-16.1.0-Beta 皆可執行 VersioningExample1Controller 包含的所有 API
     [ApiVersion("1.0")]                 //初始版本
-    [ApiVersion("2.0")]                 //使 v2.0 可繼承執行 v1 的版本
-    [ApiVersion("2019-01-16.1.0-Beta")] //使 v2019-01-16.1.0-Beta 可繼承執行 v1 的版本
+    [ApiVersion("2.0")]                 //使 v2.0 可執行 v1 的所有 APIs
+    [ApiVersion("2019-01-16.1.0-Beta")] //使 v2019-01-16.1.0-Beta 可執行 v1 的所有 APIs
     [RoutePrefix("api/v{version:apiVersion}/version-test-a")]
     public class VersioningExample1Controller : ApiController
     {
@@ -34,18 +34,17 @@ namespace WebApiJwt.Controllers
         [Route("test_ex1")]
         public IHttpActionResult Get_Test()
         {
-            return Ok($"Hello test_ex1. This API supports from v1.");
+            return Ok("Hello test_ex1. This API supports from v1.");
         }
     }
 }
 
 
-//v2: 此版本提供新 API: test_v2_ex1
+//v2: 提供新 API: test_v2_ex1
 namespace WebApiJwt.Controllers_v2
 {
-    //獨有功能，僅有本版本可執行 
     [ApiVersion("2.0")]
-    [ApiVersion("2019-01-16.1.0-Beta")] //使 v2019-01-16.1.0-Beta 可繼承執行 v2 的版本
+    [ApiVersion("2019-01-16.1.0-Beta")] //使 v2019-01-16.1.0-Beta 版可執行 v2 的所有 APIs (包含 v2 獨有新功能)
     [RoutePrefix("api/v{version:apiVersion}/version-test-a")]
     public class VersioningExample1Controller : ApiController
     {
@@ -57,16 +56,15 @@ namespace WebApiJwt.Controllers_v2
 
         //v2 獨有的新功能
         //GET: api/v2/version-test-a/test_v2_ex1
-        [Route("test_v2_ex1")]        
+        [Route("test_v2_ex1")]
         public string Get_V2Above() => "Hello world, test_v2_ex1. This API supports from v2.";
     }
 }
 
 
-//v3 (2019-01-16.1.0-Beta): 本版本提供新 API: getDatetime
+//v3 (2019-01-16.1.0-Beta): 提供新 API: getDatetime
 namespace WebApiJwt.Controllers_v2019_01_16_1_0_Beta
 {
-    //獨有功能，僅有本版本可執行     
     [ApiVersion("2019-01-16.1.0-Beta")]
     [RoutePrefix("api/v{version:apiVersion}/version-test-a")]
     public class VersioningExample1Controller : ApiController
